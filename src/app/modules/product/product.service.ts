@@ -11,13 +11,19 @@ const getAllProductsFromDB = async () => {
   return response;
 };
 
-const getAProductFromDB = async (id: string) => {
+const getSingleProductFromDB = async (id: string) => {
   const response = await ProductModel.findOne({ _id: id });
   return response;
+};
+
+const updateSingleProductIntoDB = async (id: string, updatedData: Product) => {
+  const res = await ProductModel.updateOne({ _id: id }, { $set: updatedData }); //pick document by id and set updated data
+  return res;
 };
 
 export const ProductServices = {
   createProductIntoDB,
   getAllProductsFromDB,
-  getAProductFromDB,
+  getSingleProductFromDB,
+  updateSingleProductIntoDB,
 };
