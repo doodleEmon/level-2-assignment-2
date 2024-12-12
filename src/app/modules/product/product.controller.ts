@@ -15,16 +15,44 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProducts = async (req: Request, res: Response) => {
+// const getAllProducts = async (req: Request, res: Response) => {
+//   try {
+//     const result = await ProductServices.getAllProductsFromDB();
+//     res.status(200).json({
+//       success: true,
+//       message: "Product fetched successfully!",
+//       data: result,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const getAllProducts = async (req: Request, res: Response): Promise<any> => {
+  console.log(req.query);
   try {
+    const searchTerm = req.query.searchTerm as string | undefined;
+    if (searchTerm && typeof searchTerm === "string") {
+      const result = await ProductServices.searchProductsFromDB(searchTerm);
+      return res.status(200).json({
+        success: true,
+        message: `Products matching search term '${searchTerm}' fetched successfully!`,
+        data: result,
+      });
+    }
     const result = await ProductServices.getAllProductsFromDB();
     res.status(200).json({
       success: true,
-      message: "Product fetched successfully!",
+      message: "Products fetched successfully!",
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetching products.",
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 };
 
@@ -74,10 +102,40 @@ const deleteSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+// const searchProducts = async (req: Request, res: Response) => {
+//   console.log(req.query);
+//   try {
+//     const searchTerm = req.query;
+//     console.log(searchTerm);
+//     if (!searchTerm || typeof searchTerm !== "string") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Search term is required and must be a string.",
+//       });
+//     }
+
+//     const result = await ProductServices.searchProductsFromDB(searchTerm);
+//     res.status(200).json({
+//       success: true,
+//       message: `Products matching search term '${searchTerm}' fetched successfully!`,
+//       data: result,
+//     });
+//   } catch (error) {
+//     const err = error as Error;
+//     console.error(err);
+//     res.status(500).json({
+//       success: false,
+//       message: "Failed to search products.",
+//       error: err.message,
+//     });
+//   }
+// };
+
 export const productControllers = {
   createProduct,
   getAllProducts,
   getSingleProduct,
   updateSingleProduct,
   deleteSingleProduct,
+  //   searchProducts,
 };
