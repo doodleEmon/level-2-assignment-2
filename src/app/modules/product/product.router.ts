@@ -3,6 +3,6 @@ import { productControllers } from "./product.controller";
 
 const router = express.Router();
 
-router.post("/products", productControllers.createProduct);
+router.post("/", productControllers.createProduct);
 
-export default router;
+export const ProductRoutes = router;
