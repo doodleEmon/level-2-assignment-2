@@ -7,7 +7,7 @@ const createProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.createProductIntoDB(product);
     res.status(201).json({
       success: true,
-      message: "Product is created successfully.",
+      message: "Product created successfully!",
       data: result,
     });
   } catch (error) {
@@ -20,7 +20,7 @@ const getAllProducts = async (req: Request, res: Response) => {
     const result = await ProductServices.getAllProductsFromDB();
     res.status(200).json({
       success: true,
-      message: "Got all products successfully.",
+      message: "Product fetched successfully!",
       data: result,
     });
   } catch (error) {
@@ -34,7 +34,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     const result = await ProductServices.getSingleProductFromDB(productId);
     res.status(200).json({
       success: true,
-      message: "Product found successfully by it's id.",
+      message: "Product fetched successfully!",
       data: result,
     });
   } catch (error) {
@@ -52,7 +52,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     );
     res.status(200).json({
       success: true,
-      message: "Data updated successfully.",
+      message: "Product updated successfully!",
       data: result,
     });
   } catch (error) {
