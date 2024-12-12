@@ -30,8 +30,8 @@ const getAllProducts = async (req: Request, res: Response) => {
 
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await ProductServices.getAProductFromDB(id);
+    const { productId } = req.params;
+    const result = await ProductServices.getAProductFromDB(productId);
     res.status(200).json({
       success: true,
       message: "Product found successfully by it's id.",
