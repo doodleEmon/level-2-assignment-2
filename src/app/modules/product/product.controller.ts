@@ -5,7 +5,7 @@ const createProduct = async (req: Request, res: Response) => {
   try {
     const product = req.body;
     const result = await ProductServices.createProductIntoDB(product);
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Product is created successfully.",
       data: result,
