@@ -7,15 +7,17 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).json({ message: "Welcome to the API!" });
+});
+
 app.use("/api/products", ProductRoutes);
 app.use("/api/orders", OrderRoutes);
 
-// 404 Route Not Found Handler
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: "Route not found!" });
 });
 
-// General Error Handling Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   res.status(err.status || 500).json({
     message: err.message || "Internal Server Error",
