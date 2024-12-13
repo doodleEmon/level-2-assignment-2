@@ -4,7 +4,6 @@ import { Order } from "./order.interface";
 import { OrderModel } from "./order.model";
 
 const createOrderIntoDB = async (order: Order) => {
-  console.log("🚀 ~ createOrderIntoDB ~ order:", order);
   const { productId } = order;
   const product = await ProductServices.getSingleProductFromDB(productId);
   if (
@@ -43,7 +42,12 @@ const getAllOrdersFromDB = async () => {
 
 const getOrderFromDBByEmail = async (email: string) => {
   const res = await OrderModel.find({ email: email });
-  return res;
+  console.log("🚀 ~ getOrderFromDBByEmail ~ res:", res);
+  if (res.length === 0) {
+    return null;
+  } else {
+    return res;
+  }
 };
 
 export const OrdersServices = {

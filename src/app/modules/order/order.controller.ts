@@ -28,11 +28,18 @@ const getAllOrders = async (req: Request, res: Response): Promise<any> => {
 
     if (filterEmail && typeof filterEmail === "string") {
       const result = await OrdersServices.getOrderFromDBByEmail(filterEmail);
-      res.status(200).json({
-        success: true,
-        message: "Orders fetched successfully for user email!",
-        data: result,
-      });
+      if (result === null) {
+        res.status(507).json({
+          success: false,
+          message: "Order not found!",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Orders fetched successfully for user email!",
+          data: result,
+        });
+      }
     } else {
       const result = await OrdersServices.getAllOrdersFromDB();
       res.status(200).json({
