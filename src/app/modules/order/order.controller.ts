@@ -1,10 +1,12 @@
 import { Request, Response } from "express";
 import { OrdersServices } from "./order.service";
+import OrderZodSchema from "./order.validation";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const order = req.body;
-    const result = await OrdersServices.createOrderIntoDB(order);
+    const parsedData = OrderZodSchema.parse(order);
+    const result = await OrdersServices.createOrderIntoDB(parsedData);
     if (result !== null) {
       res.status(201).json({
         success: true,
@@ -18,7 +20,7 @@ const createOrder = async (req: Request, res: Response) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json(error);
   }
 };
 
